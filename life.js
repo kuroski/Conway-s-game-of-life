@@ -65,26 +65,13 @@ function $(selector, container) {
 	
 })();
 
-// var game = new Life([
-// 	[0, 0, 0, 0, 0],
-// 	[0, 0, 1, 0, 0],
-// 	[0, 0, 1, 0, 0],
-// 	[0, 0, 1, 0, 0],
-// 	[0, 0, 0, 0, 0]
-// ]);
-
-// console.log(game + '');
-
-// game.next();
-
-// console.log(game + '');
-
 (function() {
 	
 	var _ = self.LifeView = function(table, size) {
 		this.grid = table;
 		this.size = size;
 		this.started = false;
+		this.autoplay = false;
 		
 		this.createGrid();
 	};
@@ -137,6 +124,8 @@ function $(selector, container) {
 		},
 		
 		next: function() {
+			var me = this;
+			
 			if (!this.started || this.game) {
 				this.play();
 			}
@@ -150,6 +139,12 @@ function $(selector, container) {
 					this.checkboxes[y][x].checked = !!board[y][x];
 				}
 			}
+			
+			if (this.autoplay) {
+				this.timer = setTimeout(function() {
+					me.next();
+				}, 1000);
+			}
 		}
 	};
 	
@@ -157,6 +152,24 @@ function $(selector, container) {
 
 var lifeView = new LifeView(document.getElementById('grid'), 12);
 
-// $('button.play').addEventListener('click', function(event) {
-// 	lifeView.play();
-// });
+(function() {
+	
+	var buttons = {
+		next: $('button.next'),
+		autoplay: $('#autoplay') 	
+	};
+	
+	buttons.next.addEventListener('click', function(event) {
+		lifeView.next();
+	});
+	
+	buttons.autoplay.addEventListener('change', function() {
+		buttons.next.textContent = this.checked ? 'Start' : 'Next';
+		
+		lifeView.autoplay = this.checked;
+		
+		if (!this.checked) {
+			clearTimeout(lifeView.timer);
+		}
+	});
+})();
