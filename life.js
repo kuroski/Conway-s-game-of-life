@@ -108,7 +108,23 @@
 			}
 			
 			this.grid.appendChild(fragment);
-		}	
+		},
+		
+		get boardArray() {
+			return this.checkboxes.map(function (row) {
+				return row.map(function (checkbox) {
+					return +checkbox.checked;
+				});
+			});	
+		},
+		
+		play: function() {
+			//this.game = new Life(this.boardArray);
+		},
+		
+		next: function() {
+			
+		}
 	};
 	
 })();
