@@ -16,7 +16,18 @@
 			for (var y=0; y<this.height; y++) {
 				for (var x=0; x<this.width; x++) {
 					var neighbors = this.aliveNeighbors(this.prevBoard, x, y); 
-					var alive = !!this.board[y][x]
+					var alive = !!this.board[y][x];
+					
+					if (alive) {
+						if (neighbors < 2 || neighbors > 3) {
+							this.board[y][x] = 0;
+						}
+					}
+					else {
+						if (neighbors == 3) {
+							this.board[y][x] = 1;
+						}
+					}
 				}
 			}
 		},
