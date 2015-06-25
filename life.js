@@ -119,11 +119,19 @@
 		},
 		
 		play: function() {
-			//this.game = new Life(this.boardArray);
+			this.game = new Life(this.boardArray);
 		},
 		
 		next: function() {
+			this.game.next();
 			
+			var board = this.game.board;
+			
+			for (var y=0; y<this.size; y++) {
+				for (var x=0; x<this.size; x++) {
+					this.checkboxes[y][x].checked = !!board[y][x];
+				}
+			}
 		}
 	};
 	
